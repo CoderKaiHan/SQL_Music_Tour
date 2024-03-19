@@ -10,7 +10,7 @@ module.exports = {
       },
       event_id: {
         references: {
-          model:'Event',
+          model: 'events',
           key: 'event_id'
         },
         allowNull: false,
@@ -18,7 +18,7 @@ module.exports = {
       },
       stage_id: {
         references: {
-          model:'Stage',
+          model: 'stages',
           key: 'stage_id'
         },
         allowNull: false,
@@ -26,7 +26,7 @@ module.exports = {
       },
       band_id: {
         references: {
-          model:'Band',
+          model: 'bands',
           key: 'band_id'
         },
         allowNull: false,

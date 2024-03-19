@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+
+const Stage = require('./stage');
 module.exports = (sequelize, DataTypes) => {
   class Stage_event extends Model {
     /**
@@ -23,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false,
       references: {
-        model:'Stage',
+        model:Stage,
         key: 'stage_id'
       }
     },

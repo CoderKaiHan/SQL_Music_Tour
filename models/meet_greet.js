@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const Event = require('./event');
+const Band = require('./band');
 module.exports = (sequelize, DataTypes) => {
   class Meet_greet extends Model {
     /**
@@ -22,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     event_id: {
       type: DataTypes.INTEGER,
       references: {
-        model:'Event',
+        model:Event,
         key: 'event_id'
       },
       allowNull: false
@@ -30,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     band_id: {
       type: DataTypes.INTEGER,
       references: {
-        model:'Band',
+        model:Band,
         key: 'band_id'
       },
       allowNull: false
