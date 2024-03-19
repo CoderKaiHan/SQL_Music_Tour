@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.INTEGER,
         allowNull: false
     },
+    reccomendation: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     available_start_time: {
         type:DataTypes.DATE,
         allowNull: false
