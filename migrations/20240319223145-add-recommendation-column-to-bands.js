@@ -8,9 +8,10 @@ module.exports = {
 
     await queryInterface.addColumn(
       'bands',
-      'reccomendation',
+      'recommendation',
       {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: true
       }
     )
     /**
@@ -25,7 +26,7 @@ module.exports = {
 
     await queryInterface.removeColumn(
       'bands',
-      'reccomendation'
+      'recommendation'
     )
     /**
      * Add reverting commands here.
