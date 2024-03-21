@@ -47,7 +47,7 @@ events.post('/', async (req, res)=> {
     }
 });
 
-//Update a band
+//Update a event
 events.put('/:id', async (req, res)=> {
     try {
         const updatedEvent = await Event.update(req.body,{
