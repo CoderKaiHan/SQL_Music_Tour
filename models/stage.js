@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+
+const Stage_event = require('./stage_event');
 module.exports = (sequelize, DataTypes) => {
   class Stage extends Model {
     /**
@@ -18,8 +20,13 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Stage.hasMany(Set_time, {
-        foreignKey: 'event_id',
+        foreignKey: 'stage_id',
         as: 'set_times'
+      });
+
+      Stage.hasMany(Stage_event, {
+        foreignKey: 'stage_id',
+        as: 'stages'
       });
       // define association here
     }

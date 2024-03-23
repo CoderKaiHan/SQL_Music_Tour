@@ -2,7 +2,7 @@
 const events = require('express').Router();
 const { Op } = require('sequelize');
 const db = require('../models');
-const { Event } = db;
+const { Event, Stage_event, Meet_greet, Set_time, Band, Stage } = db;
 
 //ROUTES
 //Find all events (INDEX)
@@ -11,7 +11,7 @@ events.get('/', async (req, res)=> {
         const foundEvents = await Event.findAll({
             order:[['event_date','ASC']],
             where: {
-                event_name:{ [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
+                event_name:{ [Op.like]: `%${req.query.name ? req.query.name : ''}%` }                
             }
         });
         res.status(200).json(foundEvents);
@@ -21,11 +21,70 @@ events.get('/', async (req, res)=> {
 });
 
 //Find by ID
-events.get('/:id', async (req, res)=> {
+events.get('/id/:id', async (req, res)=> {
     try {
         const foundEvent = await Event.findOne(
             {
                 where:{ event_id: req.params.id}
+            }
+        );
+        res.status(200).json(foundEvent);
+    } catch (e) {
+        res.status(500).json(e.message)
+    }
+});
+
+//Find by name
+events.get('/name/:name', async (req, res)=> {
+    try {
+        const foundEvent = await Event.findOne(
+            {
+                where:{ event_name: req.params.name},
+                include: [
+                    {
+                      model: Meet_greet, 
+                      as: 'meet_greets',
+                      include: 
+                        {
+                          model: Band,
+                          as: 'bands',
+                          where: {
+                            band_name: {[Op.like]: `%${req.query.band ? req.query.band : ''}%`}
+                          } 
+                        },
+                        attributes: { exclude: ['event_id'] },
+                        order: [
+                            'start_time','ASC'
+                        ]
+                    },
+                    {
+                        model: Stage,
+                        as: 'stages',
+                        where: {
+                          stage_name: {[Op.like]: `%${req.query.stage ? req.query.stage : ''}%`}
+                        },
+                        through: {
+                            attributes: []
+                        }
+                    },
+                    {
+                      model: Set_time,
+                      as: 'set_times',
+                      include:[ 
+                        {
+                          model: Band,
+                          as: 'bands',
+                          where: {
+                            band_name: {[Op.like]: `%${req.query.band ? req.query.band : ''}%`}
+                          }
+                        }],
+                      attributes: { exclude: ['event_id'] },
+                      order: [
+                        'start_time','ASC'
+                      ]
+                    }
+            
+                ]
             }
         );
         res.status(200).json(foundEvent);
